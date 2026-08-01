@@ -2,7 +2,7 @@
 
 A feature-complete, progressive web application (PWA) arcade game built with **vanilla HTML5 Canvas, CSS3, and ES6 JavaScript**. Features classic Atari Breakout mechanics packed with retro CRT effects, an upgrades system, power-ups, particle explosions, dynamic Web Audio synthesis, and multi-language support.
 
-<img src="https://github.com/user-attachments/assets/748dc7b0-702c-41b3-ae86-abb0226236f5" width="708" alt="Bit Smash Preview" />
+<img width="1002" height="623" alt="Image" src="https://github.com/user-attachments/assets/19fef38b-e302-417e-8b81-c4b62a24eaee" />
 
 ---
 
