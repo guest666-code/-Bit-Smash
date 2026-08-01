@@ -1,3 +1,77 @@
+// --- Web Audio API Synthesizer ---
+class SoundFX {
+  constructor() {
+    this.ctx = null;
+  }
+
+  init() {
+    if (!this.ctx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      this.ctx = new AudioCtx();
+    }
+  }
+
+  playTone(frequency, type, duration) {
+    this.init();
+    if (!this.ctx) return;
+
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = type; // "sine", "square", "sawtooth", "triangle"
+    osc.frequency.setValueAtTime(frequency, this.ctx.currentTime);
+
+    gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc.start();
+    osc.stop(this.ctx.currentTime + duration);
+  }
+
+  paddleHit() {
+    this.playTone(180, "triangle", 0.08);
+  }
+
+  wallHit() {
+    this.playTone(320, "sine", 0.05);
+  }
+
+  brickHit() {
+    this.playTone(580, "square", 0.08);
+  }
+
+  winSound() {
+    this.playTone(440, "sine", 0.1);
+    setTimeout(() => this.playTone(554, "sine", 0.1), 100);
+    setTimeout(() => this.playTone(659, "sine", 0.2), 200);
+  }
+
+  gameOverSound() {
+    this.init();
+    if (!this.ctx) return;
+
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(60, this.ctx.currentTime + 0.4);
+
+    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.4);
+  }
+}
+
+// --- Game Objects ---
 class Ball {
   constructor(canvas) {
     this.canvas = canvas;
@@ -88,6 +162,7 @@ class Brick {
   }
 }
 
+// --- Main Engine ---
 class Game {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
@@ -95,6 +170,7 @@ class Game {
 
     this.ball = new Ball(this.canvas);
     this.paddle = new Paddle(this.canvas);
+    this.sounds = new SoundFX();
     this.bricks = [];
     this.score = 0;
 
@@ -144,7 +220,7 @@ class Game {
       }
     });
 
-    // Mobile Touch Controls
+    // Mobile Touch Dragging
     const handleTouch = (e) => {
       if (e.target === this.canvas) e.preventDefault();
       if (e.touches.length > 0) {
@@ -166,18 +242,24 @@ class Game {
     // Wall Bounce (Left / Right)
     if (ball.x + ball.dx > this.canvas.width - ball.radius || ball.x + ball.dx < ball.radius) {
       ball.dx = -ball.dx;
+      this.sounds.wallHit();
     }
 
     // Ceiling Bounce
     if (ball.y + ball.dy < ball.radius) {
       ball.dy = -ball.dy;
+      this.sounds.wallHit();
     } else if (ball.y + ball.dy > this.canvas.height - ball.radius) {
       // Paddle Bounce Check
       if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
         ball.dy = -ball.dy;
+        this.sounds.paddleHit();
       } else {
-        alert("GAME OVER");
-        document.location.reload();
+        this.sounds.gameOverSound();
+        setTimeout(() => {
+          alert("GAME OVER");
+          document.location.reload();
+        }, 100);
         return false;
       }
     }
@@ -194,10 +276,14 @@ class Game {
           ball.dy = -ball.dy;
           brick.isDestroyed = true;
           this.score++;
+          this.sounds.brickHit();
 
           if (this.score === this.bricks.length) {
-            alert("YOU WIN! CONGRATS!");
-            document.location.reload();
+            this.sounds.winSound();
+            setTimeout(() => {
+              alert("YOU WIN! CONGRATS!");
+              document.location.reload();
+            }, 100);
             return false;
           }
         }
@@ -243,3 +329,4 @@ class Game {
 // Instantiate & Run Game
 const game = new Game("gameCanvas");
 game.start();
+
