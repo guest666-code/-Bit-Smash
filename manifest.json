@@ -1,0 +1,15 @@
+{
+  "name": "Bit Smash",
+  "short_name": "BitSmash",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080c14",
+  "theme_color": "#080c14",
+  "icons": [
+    {
+      "src": "https://github.com/user-attachments/assets/748dc7b0-702c-41b3-ae86-abb0226236f5",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

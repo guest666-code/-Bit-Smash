@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Bit Smash</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#080c14" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1 id="titleText">BIT SMASH</h1>
+
+  <div class="crt-container">
+    <canvas id="gameCanvas" width="480" height="320"></canvas>
+
+    <!-- UI Overlay for Menus -->
+    <div id="uiOverlay" class="ui-overlay">
+      
+      <!-- MAIN MENU -->
+      <div id="mainMenu" class="menu-screen active">
+        <h2 id="menuHeading">BIT SMASH</h2>
+        <p class="high-score-text"><span id="lblHighScore">HIGH SCORE</span>: <span id="valHighScore">0</span></p>
+        <button id="btnStart" class="arcade-btn">START</button>
+        <button id="btnUpgrades" class="arcade-btn">UPGRADES</button>
+        <button id="btnSettings" class="arcade-btn">SETTINGS</button>
+      </div>
+
+      <!-- UPGRADES MENU -->
+      <div id="upgradesMenu" class="menu-screen">
+        <h2 id="upgradesHeading">UPGRADES</h2>
+        <p class="coins-text"><span id="lblCoins">COINS</span>: <span id="valCoins">0</span></p>
+        <div class="upgrades-list">
+          <div class="upgrade-item">
+            <span id="upg1Name">Paddle Size</span>
+            <button id="btnUpg1" class="shop-btn">LVL 1 (10C)</button>
+          </div>
+          <div class="upgrade-item">
+            <span id="upg2Name">Ball Speed</span>
+            <button id="btnUpg2" class="shop-btn">LVL 1 (15C)</button>
+          </div>
+          <div class="upgrade-item">
+            <span id="upg3Name">Extra Life</span>
+            <button id="btnUpg3" class="shop-btn">LVL 1 (25C)</button>
+          </div>
+          <div class="upgrade-item">
+            <span id="upg4Name">Multi-Ball Drop</span>
+            <button id="btnUpg4" class="shop-btn">LVL 1 (30C)</button>
+          </div>
+          <div class="upgrade-item">
+            <span id="upg5Name">Coin Multiplier</span>
+            <button id="btnUpg5" class="shop-btn">LVL 1 (20C)</button>
+          </div>
+        </div>
+        <button id="btnUpgradesBack" class="arcade-btn back-btn">BACK</button>
+      </div>
+
+      <!-- SETTINGS MENU -->
+      <div id="settingsMenu" class="menu-screen">
+        <h2 id="settingsHeading">SETTINGS</h2>
+        <div class="setting-row">
+          <span id="lblSfx">Sound Effects</span>
+          <button id="btnToggleSfx" class="toggle-btn">ON</button>
+        </div>
+        <div class="setting-row">
+          <span id="lblBgm">Background Music</span>
+          <button id="btnToggleBgm" class="toggle-btn">ON</button>
+        </div>
+        <div class="setting-row">
+          <span id="lblLang">Language</span>
+          <button id="btnLang" class="toggle-btn">EN</button>
+        </div>
+        <button id="btnSettingsBack" class="arcade-btn back-btn">BACK</button>
+      </div>
+
+      <!-- WIN MENU -->
+      <div id="winMenu" class="menu-screen">
+        <h2 id="winHeading" class="win-title">YOU WIN!</h2>
+        <p class="final-score"><span id="lblFinalScoreWin">SCORE</span>: <span id="valFinalScoreWin">0</span></p>
+        <button id="btnWinRestart" class="arcade-btn">PLAY AGAIN</button>
+        <button id="btnWinMenu" class="arcade-btn">MAIN MENU</button>
+      </div>
+
+      <!-- LOSE MENU -->
+      <div id="loseMenu" class="menu-screen">
+        <h2 id="loseHeading" class="lose-title">GAME OVER</h2>
+        <p class="final-score"><span id="lblFinalScoreLose">SCORE</span>: <span id="valFinalScoreLose">0</span></p>
+        <button id="btnLoseRestart" class="arcade-btn">TRY AGAIN</button>
+        <button id="btnLoseMenu" class="arcade-btn">MAIN MENU</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>
