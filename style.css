@@ -1,0 +1,190 @@
+/* --- Global Styles & Reset --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+body {
+  background-color: #0f172a;
+  color: #f8fafc;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* --- App Container --- */
+.game-container {
+  position: relative;
+  width: 480px;
+  height: 320px;
+  background-color: #020617;
+  border: 4px solid #38bdf8;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+  overflow: hidden;
+  touch-action: none; /* Prevents pull-to-refresh & screen scrolling on mobile */
+}
+
+/* --- Game Canvas --- */
+#gameCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #020617;
+  touch-action: none;
+}
+
+/* --- UI Overlay Layer --- */
+.ui-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* Allows mouse & touch inputs to reach the canvas underneath */
+}
+
+/* --- Menu Screens --- */
+.menu-screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  height: 90%;
+  background: rgba(15, 23, 42, 0.95);
+  border: 2px solid #f43f5e;
+  border-radius: 6px;
+  padding: 16px;
+  text-align: center;
+  pointer-events: auto; /* Re-enables button clicks inside active menu screens */
+}
+
+.menu-screen.active {
+  display: flex;
+}
+
+/* --- Typography --- */
+h1 {
+  font-size: 28px;
+  color: #f43f5e;
+  text-shadow: 2px 2px #000;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+h2 {
+  font-size: 20px;
+  color: #38bdf8;
+  margin-bottom: 12px;
+}
+
+p {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #cbd5e1;
+}
+
+.high-score-box, .coins-box {
+  font-size: 13px;
+  color: #eab308;
+  margin-bottom: 10px;
+}
+
+/* --- Controls & Buttons --- */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 220px;
+  margin-top: 10px;
+}
+
+.btn {
+  background-color: #1e293b;
+  color: #38bdf8;
+  border: 2px solid #38bdf8;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.15s, color 0.15s, transform 0.05s;
+}
+
+.btn:hover {
+  background-color: #38bdf8;
+  color: #020617;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  border-color: #64748b;
+  color: #94a3b8;
+}
+
+.btn-secondary:hover {
+  background-color: #64748b;
+  color: #0f172a;
+}
+
+/* --- Settings & Upgrades Rows --- */
+.setting-row, .upgrade-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 340px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.upgrade-row span {
+  color: #e2e8f0;
+}
+
+.upgrades-list {
+  width: 100%;
+  max-height: 160px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+/* Custom Scrollbar for Upgrades List */
+.upgrades-list::-webkit-scrollbar {
+  width: 4px;
+}
+.upgrades-list::-webkit-scrollbar-thumb {
+  background: #38bdf8;
+  border-radius: 2px;
+}
+
+/* --- Responsive Scaling for Mobile --- */
+@media (max-width: 520px) {
+  .game-container {
+    width: 96vw;
+    height: 64vw; /* Keeps the 3:2 ratio on mobile screens */
+    max-width: 480px;
+    max-height: 320px;
+  }
+
+  h1 { font-size: 22px; }
+  h2 { font-size: 16px; }
+  .btn { font-size: 11px; padding: 6px 10px; }
+}
